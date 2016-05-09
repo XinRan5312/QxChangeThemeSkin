@@ -1,2 +1,10 @@
 # QxChangeThemeSkin
 android APP 动态更换主题颜色的研究 感谢http://www.jianshu.com/p/af7c0585dd5b的分享
+主题框架的思想：SkinAttr负责每个Skin的bean类，记录了view需要更改的信息，AttrFactory负责根据传来的参数创建不同的SinAttry，然后把产生的
+Skin bean放到一个容器类中，以便遍历最终更改相应view的主题皮肤。
+    
+SkinInflaterFactory implements LayoutInflaterFactory其实主要是重写了oncreatView方法，监测出那些需要更改Skin的view，并在parseSkinAttr（）方法解析出相应的SkinAttr放到容易中，以便更改view的skin。
+
+SkinManager一方面是做了些必要初始化工作，一方面是根据SkinAttr得到相应属性值比如color和drawable等，还有就是利用接口监听的订阅，时刻更改viewskin
+
+QxSkinBaseActivity一是初始化，二是作为要更改主题的Activity的父类，使Activity得几个生命周期方法与SkinManager绑定，以便根据其周期管理其skin，还有就是实现了一些在需要在SkinManger回调的接口或者是订阅。
